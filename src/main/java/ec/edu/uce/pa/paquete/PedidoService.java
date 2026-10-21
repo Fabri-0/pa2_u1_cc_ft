@@ -6,12 +6,36 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 
 //@RequestScoped 
-@ApplicationScoped //Delego el control al contenedor ArC
-//@Singleton 
+@ApplicationScoped // Delego el control al contenedor ArC
+// @Singleton
 public class PedidoService {
 
-    @Inject 
+    // Inyeccion de dependencia por atributo
+
+    @Inject
     private MailService mailService;
+
+    /*
+     * private MailService mailService;
+     * // Inyeccion de dependencia por constructor
+     * 
+     * @Inject
+     * public PedidoService(MailService mailService) {
+     * this.mailService = mailService;
+     * }
+     */
+
+    /*
+     * private MailService mailService;
+     * // Inyeccion de dependencia por setters
+     * 
+     * @Inject
+     * public void setMailService(MailService mailService) {
+     * System.out.
+     * println("Se esta inyectando el servicio de correo en PedidoService");
+     * this.mailService = mailService;
+     * }
+     */
 
     public void realizar(Pedido pedido) {
         System.out.println("Realizar pedido");
@@ -28,4 +52,5 @@ public class PedidoService {
         this.mailService.enviar(pedido.getCorreo(), asunto, cuerpo);
 
     }
+
 }
