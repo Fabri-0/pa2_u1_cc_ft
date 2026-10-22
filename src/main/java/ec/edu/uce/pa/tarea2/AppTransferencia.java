@@ -5,8 +5,10 @@ import ec.edu.uce.pa.tarea2.transferencia.Transferencia;
 import ec.edu.uce.pa.tarea2.transferencia.TransferenciaService;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
+import io.quarkus.runtime.annotations.QuarkusMain;
 import jakarta.inject.Inject;
 
+//@QuarkusMain
 public class AppTransferencia implements QuarkusApplication {
 
     @Inject
@@ -16,7 +18,7 @@ public class AppTransferencia implements QuarkusApplication {
         Quarkus.run(AppTransferencia.class, args);
     }
 
-    @Override
+    //@Override
     public int run(String... args){
         System.out.println("Iniciando apliacion Quarkus");
 
