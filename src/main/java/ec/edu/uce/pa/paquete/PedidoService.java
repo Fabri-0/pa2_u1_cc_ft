@@ -1,6 +1,7 @@
 package ec.edu.uce.pa.paquete;
 
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
@@ -13,27 +14,31 @@ public class PedidoService {
 
     // Inyeccion de dependencia por atributo
 
-/*     @Inject
-    private MailService diferente; */
+    @Inject
+    // @Named ("mail")
+    private MailService notificacionCorreo;
 
+    @Inject
+    // @Named ("sms")
+    private SMSService notificacionSMS;
 
     public void realizar(Pedido pedido) {
 
-        MailService mailService = CDI.current().select(MailService.class).get();
-
-        System.out.println("Realizar pedido");
-        System.out.println("Pedido realizado para cliente: " + pedido.getCliente());
+        System.out.println("Realizando pedido...");
+        System.out.println("Pedido realizado al cliente: " + pedido.getCliente());
         System.out.println("Producto: " + pedido.getProducto());
         System.out.println("Total: " + pedido.getTotal());
         System.out.println("Correo: " + pedido.getCorreo());
-        System.out.println("Pedido realizado con exito.");
+        System.out.println("Pedido realizado con éxito.");
 
-        String asunto = "Confirmacion de pedido";
-        String cuerpo = "Estimado " + pedido.getCliente() + ", su pedido de " + pedido.getProducto()
-                + " por un total de $" + pedido.getTotal() + " ha sido realizado con exito.";
+        String cuerpo = "Estimado " + pedido.getCliente() + ", su pedido de " + "'" + pedido.getProducto() + "'" +
+                " por un total de $" + pedido.getTotal() + " ha sido realizado con éxito.";
 
-        mailService.enviar(pedido.getCorreo(), asunto, cuerpo);
+        // Notificacion de pedido por correo electronico
+        this.notificacionCorreo.enviar(pedido.getCorreo(), cuerpo);
 
+        // Notificacion de pedido por SMS
+        this.notificacionSMS.enviar(pedido.getTelefono(), cuerpo);
     }
 
 }
