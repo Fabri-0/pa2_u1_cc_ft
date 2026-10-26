@@ -1,62 +1,26 @@
-# pa2_u1_cc_ft
+# Taller práctico: Simulador de descuentos con Quarkus
+**Programación Avanzada II | Unidad 1**  
+**Estudiante:** Fabricio Topón  
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+---
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Preguntas de análisis
 
-## Running the application in dev mode
+### 1. ¿En qué parte del ejercicio se aplica IoC y en cuál DI?
+* **IoC (Inversión de Control):** Se aplica al delegar la creación, ciclo de vida y administración de los componentes (`DescuentoRegular`, `DescuentoVIP`, `Auditoria`, `VentaService`) al contenedor ArC de Quarkus, sin necesidad de instanciarlos manualmente con `new`.
+* **DI (Inyección de Dependencias):** Se aplica en `VentaService` al suministrarle sus dependencias mediante dos técnicas:
+  * Inyección por atributo: `@Inject @Named("regular") private CalculadoraDescuento descuentoRegular;` y `@Named("vip")`.
+  * Inyección por constructor: `@Inject public VentaService(Auditoria auditoria)`.
 
-You can run your application in dev mode that enables live coding using:
+### 2. ¿Qué función cumplen los Qualifiers y por qué son necesarios?
+Los Qualifiers (como `@Named`) sirven para resolver la ambigüedad de tipos. Son necesarios cuando una misma interfaz (`CalculadoraDescuento`) tiene múltiples implementaciones (`DescuentoRegular` y `DescuentoVIP`), permitiendo al contenedor CDI identificar exactamente cuál implementación inyectar en cada caso.
 
-```shell script
-./mvnw quarkus:dev
-```
+### 3. ¿Cuál es la diferencia entre `@ApplicationScoped` y `@Dependent`?
+* **`@ApplicationScoped`:** Crea una única instancia compartida durante toda la vida de la aplicación (comportamiento tipo Singleton administrado).
+* **`@Dependent`:** No tiene un ciclo de vida propio; su ciclo de vida depende directamente del componente donde fue inyectado (se crea junto con él y se destruye con él).
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+### 4. ¿Por qué las instancias `@ApplicationScoped` pueden reutilizarse entre varias ventas?
+Porque el contenedor ArC mantiene una única instancia en memoria para toda la aplicación. Al procesar varias ventas en `VentaService`, las operaciones invocan la misma instancia existente de la calculadora correspondiente, lo cual se evidencia al ver que el UUID se mantiene idéntico entre ventas del mismo tipo.
 
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
-```
-
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/pa2_u1_cc_ft-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+### 5. ¿Qué sucedería si se elimina el Qualifier de un punto de inyección de `CalculadoraDescuento`?
+Quarkus detectará un error de resolución ambigua (`AmbiguousResolutionException`) en tiempo de compilación. Como existen dos beans válidos para la interfaz `CalculadoraDescuento` y ninguno tiene distinción, ArC no sabrá cuál inyectar y la aplicación no compilará.
