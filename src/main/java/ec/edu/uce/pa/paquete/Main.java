@@ -26,12 +26,14 @@ public class Main implements QuarkusApplication {
         
         Pedido pedido = new Pedido("Fabricio Topon", "Laptop", "ftmarce@gmail.com",1500.50); // creamos manualmente el objeto de la clase Pedido
         pedido.setTelefono("099999999");
-        this.pedidoService.realizar(pedido);
+        this.pedidoService.realizar(pedido, "valor 1");
 
 
-        Compra compra = new Compra("Fabricio Topon", "Play", "ftmarce23@gmail.com",500.0);
+        System.out.println("******************************************************************");
+
+/*         Compra compra = new Compra("Fabricio Topon", "Play", "ftmarce23@gmail.com",500.0);
         compra.setTelefono("088888888");
-        this.compraService.realizar(compra);
+        this.compraService.realizar(compra); */
 
         return 0;
     }
