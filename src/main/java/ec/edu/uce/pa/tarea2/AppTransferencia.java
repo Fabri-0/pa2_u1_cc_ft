@@ -5,8 +5,10 @@ import ec.edu.uce.pa.tarea2.transferencia.Transferencia;
 import ec.edu.uce.pa.tarea2.transferencia.TransferenciaService;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
+import io.quarkus.runtime.annotations.QuarkusMain;
 import jakarta.inject.Inject;
 
+@QuarkusMain
 public class AppTransferencia implements QuarkusApplication {
 
     @Inject
@@ -26,8 +28,8 @@ public class AppTransferencia implements QuarkusApplication {
         Transferencia transferencia = new Transferencia(cuenta1, cuenta2, 300.20);
         this.transferenciaService.transferir(transferencia);
 
-        System.out.println(cuenta1.getSaldo());
-        System.out.println(cuenta2.getSaldo());
+        System.out.println("\nTitular de la cuenta: "+ cuenta1.getTitular() + ", Saldo: "+ cuenta1.getSaldo());
+        System.out.println("Titular de la cuenta: "+ cuenta2.getTitular() + ", Saldo: " +cuenta2.getSaldo());
 
         return 0;
     }
