@@ -9,6 +9,14 @@ public class PedidoService {
     @Auditoria 
     public String realizar(Pedido pedido, String valor1) {
 
+        Long inicio = System.currentTimeMillis();
+
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("\nRealizando pedido...");
         System.out.println("Pedido realizado al cliente: " + pedido.getCliente());
         System.out.println("Producto: " + pedido.getProducto());
@@ -16,6 +24,7 @@ public class PedidoService {
         System.out.println("Correo: " + pedido.getCorreo());
         System.out.println("Pedido realizado con exito.\n");
 
-        return  "Pedido realizado con éxito";
+        Long fin = System.currentTimeMillis() - inicio;
+        return  "Pedido realizado con éxito, \nTiempo de ejecucion: " + fin;
     }
 }
