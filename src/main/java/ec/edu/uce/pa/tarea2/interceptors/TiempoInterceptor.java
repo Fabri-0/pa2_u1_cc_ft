@@ -9,7 +9,7 @@ import jakarta.interceptor.InvocationContext;
 
 @MedirTiempo
 @Interceptor
-@Priority(Interceptor.Priority.APPLICATION)
+@Priority(InterfazPriority.TIEMPO)
 public class TiempoInterceptor {
 
     @Inject
@@ -17,13 +17,14 @@ public class TiempoInterceptor {
 
     @AroundInvoke
     public Object interceptar(InvocationContext context) throws Exception {
-        long inicio = System.nanoTime();
+        
+        long inicio = System.currentTimeMillis();
 
         Object resultado = context.proceed();
 
-        long duracion = System.nanoTime() - inicio;
+        long duracion = System.currentTimeMillis() - inicio;
         String metodo = context.getMethod().getName();
-
+System.out.println("[TIEMPO]: Iniciando medición de tiempo...");
         this.registroTiempo.registrar(metodo, duracion);
 
         return resultado;

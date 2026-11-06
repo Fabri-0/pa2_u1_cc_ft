@@ -1,6 +1,8 @@
 package ec.edu.uce.pa.tarea2.transferencia;
 
+import ec.edu.uce.pa.tarea2.interceptors.AuditarTransferencia;
 import ec.edu.uce.pa.tarea2.interceptors.MedirTiempo;
+import ec.edu.uce.pa.tarea2.interceptors.ValidarTransferencia;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -10,6 +12,8 @@ public class TransferenciaService {
     @Inject 
     private CuentaService cuentaService;
 
+    @ValidarTransferencia
+    @AuditarTransferencia
     @MedirTiempo
     public void transferir(Transferencia transferencia) {
 
