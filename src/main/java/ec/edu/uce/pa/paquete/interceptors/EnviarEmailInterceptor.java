@@ -14,7 +14,7 @@ public class EnviarEmailInterceptor {
     public Object interceptar(InvocationContext context) throws Exception {
         Object resultado = context.proceed();
 
-        System.out.println("Mensaje enviado por EMAIL");
+        System.out.println("\n[ENVIAR EMAIL] \n\tMensaje enviado por EMAIL");
         return resultado;
     }
 }

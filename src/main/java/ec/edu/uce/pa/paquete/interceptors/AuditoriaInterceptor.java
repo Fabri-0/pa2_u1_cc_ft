@@ -24,7 +24,7 @@ public class AuditoriaInterceptor {
     public Object Interceptar(InvocationContext context) throws Exception { 
         // Todo lo que esta arriba se ejecuta antes de ejecutar el metodo interceptado
         Object resultado = context.proceed(); // Ejecuta el metodo interceptado
-        System.out.println("Mensaje luego que se ejecuta el método interceptado. \n");
+        System.out.println("\n[AUDITORIA] \nMensaje luego que se ejecuta el método interceptado. \n");
 
         System.out.println("Retorno: " + resultado);
         

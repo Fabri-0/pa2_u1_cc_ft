@@ -14,7 +14,7 @@ public class EnviarSMSInterceptor {
     public Object interceptar(InvocationContext context) throws Exception {
         Object resultado = context.proceed();
 
-        System.out.println("Mensaje enviado por SMS");
+        System.out.println("\n[ENVIAR SMS] \n\tMensaje enviado por SMS");
         return resultado;
     }
 }

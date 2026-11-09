@@ -8,7 +8,7 @@ import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import jakarta.inject.Inject;
 
-@QuarkusMain
+//@QuarkusMain
 public class AppTransferencia implements QuarkusApplication {
 
     @Inject

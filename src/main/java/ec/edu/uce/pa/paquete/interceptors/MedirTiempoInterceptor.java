@@ -17,7 +17,7 @@ public class MedirTiempoInterceptor {
         Object resultado = context.proceed();
 
         long duracion = System.currentTimeMillis() - inicio;
-        System.out.println("El método tardo: " + duracion);
+        System.out.println("\n[MEDIR TIEMPO] \n\tEl método tardo: " + duracion + "\n");
         return resultado;
     }
 }
