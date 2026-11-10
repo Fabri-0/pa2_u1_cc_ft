@@ -1,7 +1,10 @@
 package ec.edu.uce.pa.paquete;
 
 import jakarta.inject.Inject;
-
+import ec.edu.uce.pa.paquete.extensiones.NotificacionExtension;
+import ec.edu.uce.pa.paquete.extensiones.NotificacionExtensionMail;
+import ec.edu.uce.pa.paquete.extensiones.NotificacionExtensionSMS;
+import ec.edu.uce.pa.paquete.extensiones.NotificacionExtensionWhatsApp;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
@@ -10,10 +13,16 @@ import io.quarkus.runtime.annotations.QuarkusMain;
 public class Main implements QuarkusApplication {
 
     @Inject 
-    private PedidoService pedidoService;
+    private CompraService compraService;
 
     @Inject 
-    private CompraService compraService;
+    private NotificacionExtensionMail notificacionExtensionMail;
+
+    @Inject 
+    private NotificacionExtensionSMS notificacionExtensionMailSMS;
+
+    @Inject 
+    private NotificacionExtensionWhatsApp notificacionExtensionWhatsApp;
 
 
     public static void main(String[] args) {
@@ -24,16 +33,21 @@ public class Main implements QuarkusApplication {
     public int run(String... args){
         System.out.println("Iniciando apliacion Quarkus");
         
-        Pedido pedido = new Pedido("Fabricio Topon", "Laptop", "ftmarce@gmail.com",1500.50); // creamos manualmente el objeto de la clase Pedido
-        pedido.setTelefono("099999999");
-        this.pedidoService.realizar(pedido, "valor 1");
-
+        Compra compra = new Compra("Fabricio Topon", "Play", "fabri@gmail.com",500.0);
+        compra.setTelefono("088888888");
+        this.compraService.realizar(compra, this.notificacionExtensionMail); 
 
         System.out.println("******************************************************************");
 
-/*         Compra compra = new Compra("Fabricio Topon", "Play", "ftmarce23@gmail.com",500.0);
-        compra.setTelefono("088888888");
-        this.compraService.realizar(compra); */
+        Compra compra1 = new Compra("Joss Sanunga", "Refri", "fabri@gmail.com",500.0);
+        compra1.setTelefono("088888888");
+        this.compraService.realizar(compra1, this.notificacionExtensionMailSMS); 
+
+        System.out.println("******************************************************************");
+
+        Compra compra2 = new Compra("Hugo Paucar", "Refri", "fabri@gmail.com",500.0);
+        compra2.setTelefono("088888888");
+        this.compraService.realizar(compra2, this.notificacionExtensionWhatsApp); 
 
         return 0;
     }
